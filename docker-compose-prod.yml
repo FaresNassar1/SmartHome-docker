@@ -1,7 +1,19 @@
 version: '3'
 services:
-  nginx-static-website:
-    image: faresnassar/nginx-static-website:latest
+  nginx-reverse-proxy:
+    image: faresnassar/nginx-static-website
+    container_name: nginx-reverse-proxy
     ports:
       - "80:80"
     restart: always
+    networks:
+      - nginx-network
+  your-app-container:
+    image: your-static-website-image:latest
+    container_name: your-app-container
+    restart: always
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
